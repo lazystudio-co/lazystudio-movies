@@ -38,20 +38,24 @@ export default function Player({
   let videoSrc = ''
   if (tmdbId) {
     if (type === 'movie') {
-      if (activeServer === 'codespecters') {
-        videoSrc = movieEmbedUrl(tmdbId)
+      if (activeServer === 'hnembed') {
+        videoSrc = `https://hnembed.cc/embed/movie/${tmdbId}`
       } else if (activeServer === 'streamrip') {
         videoSrc = `https://streamrip.fun/movie/${tmdbId}`
-      } else if (activeServer === 'hnembed') {
-        videoSrc = `https://hnembed.cc/embed/movie/${tmdbId}`
+      } else if (activeServer === 'codespecters') {
+        videoSrc = movieEmbedUrl(tmdbId)
+      } else if (activeServer === 'twoembed') {
+        videoSrc = `https://www.2embed.cc/embed/${tmdbId}`
       }
     } else if (type === 'tv' && season && episode) {
-      if (activeServer === 'codespecters') {
-        videoSrc = tvEmbedUrl(tmdbId, season, episode)
+      if (activeServer === 'hnembed') {
+        videoSrc = `https://hnembed.cc/embed/tv/${tmdbId}/${season}/${episode}`
       } else if (activeServer === 'streamrip') {
         videoSrc = `https://streamrip.fun/tv/${tmdbId}/${season}/${episode}`
-      } else if (activeServer === 'hnembed') {
-        videoSrc = `https://hnembed.cc/embed/tv/${tmdbId}/${season}/${episode}`
+      } else if (activeServer === 'codespecters') {
+        videoSrc = tvEmbedUrl(tmdbId, season, episode)
+      } else if (activeServer === 'twoembed') {
+        videoSrc = `https://www.2embed.cc/embedtv/${tmdbId}&s=${season}&e=${episode}`
       }
     }
   }
@@ -121,6 +125,12 @@ export default function Player({
                   onClick={() => setActiveServer('codespecters')}
                 >
                   Server 3
+                </button>
+                <button
+                  className={`${styles.serverBtn} ${activeServer === 'twoembed' ? styles.serverActive : ''}`}
+                  onClick={() => setActiveServer('twoembed')}
+                >
+                  Server 4
                 </button>
               </div>
             )}
