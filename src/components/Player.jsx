@@ -115,20 +115,20 @@ export default function Player({
                   Server 1
                 </button>
                 <button
-                  className={`${styles.serverBtn} ${activeServer === 'streamrip' ? styles.serverActive : ''}`}
-                  onClick={() => setActiveServer('streamrip')}
+                  className={`${styles.serverBtn} ${activeServer === 'twoembed' ? styles.serverActive : ''}`}
+                  onClick={() => setActiveServer('twoembed')}
                 >
                   Server 2
                 </button>
                 <button
-                  className={`${styles.serverBtn} ${activeServer === 'codespecters' ? styles.serverActive : ''}`}
-                  onClick={() => setActiveServer('codespecters')}
+                  className={`${styles.serverBtn} ${activeServer === 'streamrip' ? styles.serverActive : ''}`}
+                  onClick={() => setActiveServer('streamrip')}
                 >
                   Server 3
                 </button>
                 <button
-                  className={`${styles.serverBtn} ${activeServer === 'twoembed' ? styles.serverActive : ''}`}
-                  onClick={() => setActiveServer('twoembed')}
+                  className={`${styles.serverBtn} ${activeServer === 'codespecters' ? styles.serverActive : ''}`}
+                  onClick={() => setActiveServer('codespecters')}
                 >
                   Server 4
                 </button>
