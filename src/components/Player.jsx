@@ -38,13 +38,21 @@ export default function Player({
   let videoSrc = ''
   if (tmdbId) {
     if (type === 'movie') {
-      videoSrc = activeServer === 'codespecters'
-        ? movieEmbedUrl(tmdbId)
-        : `https://streamrip.fun/movie/${tmdbId}`
+      if (activeServer === 'codespecters') {
+        videoSrc = movieEmbedUrl(tmdbId)
+      } else if (activeServer === 'streamrip') {
+        videoSrc = `https://streamrip.fun/movie/${tmdbId}`
+      } else if (activeServer === 'hnembed') {
+        videoSrc = `https://hnembed.cc/embed/movie/${tmdbId}`
+      }
     } else if (type === 'tv' && season && episode) {
-      videoSrc = activeServer === 'codespecters'
-        ? tvEmbedUrl(tmdbId, season, episode)
-        : `https://streamrip.fun/tv/${tmdbId}/${season}/${episode}`
+      if (activeServer === 'codespecters') {
+        videoSrc = tvEmbedUrl(tmdbId, season, episode)
+      } else if (activeServer === 'streamrip') {
+        videoSrc = `https://streamrip.fun/tv/${tmdbId}/${season}/${episode}`
+      } else if (activeServer === 'hnembed') {
+        videoSrc = `https://hnembed.cc/embed/tv/${tmdbId}/${season}/${episode}`
+      }
     }
   }
 
@@ -107,6 +115,12 @@ export default function Player({
                   onClick={() => setActiveServer('streamrip')}
                 >
                   Server 2
+                </button>
+                <button
+                  className={`${styles.serverBtn} ${activeServer === 'hnembed' ? styles.serverActive : ''}`}
+                  onClick={() => setActiveServer('hnembed')}
+                >
+                  Server 3
                 </button>
               </div>
             )}
