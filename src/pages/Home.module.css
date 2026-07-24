@@ -1,15 +1,4 @@
-
-
-.sectionLabel {
-  font-size: 16px;
-  font-family: var(--font-display);
-  color: #ffffff;
-  margin-bottom: 1.2rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-/* Featured TV Hero Banner */
+/* Featured Hero Banner */
 .hero {
   position: relative;
   width: 100vw;
@@ -160,26 +149,7 @@
   transform: scale(1.03);
 }
 
-@media (max-width: 768px) {
-  .hero {
-    height: 50vh;
-    min-height: 380px;
-    margin-bottom: 2rem;
-  }
-  .heroContent {
-    padding: 0 20px 30px;
-  }
-}
-
-.sectionLabel {
-  font-size: 16px;
-  font-family: var(--font-display);
-  color: #ffffff;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
+/* See All Subview styles */
 .seeAllContainer {
   padding: 1rem clamp(1rem, 4vw, 3.5rem) 4rem;
   animation: fadeIn 0.4s ease;
@@ -223,6 +193,7 @@
   letter-spacing: -0.03em;
 }
 
+/* Loader Styles */
 .loader {
   display: flex;
   justify-content: center;
@@ -241,4 +212,28 @@
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+.searchWrap {
+  padding: 1rem clamp(1rem, 4vw, 3.5rem) 4rem;
+}
+
+.sectionLabel {
+  font-size: 16px;
+  font-family: var(--font-display);
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 50vh;
+    min-height: 380px;
+    margin-bottom: 2rem;
+  }
+  .heroContent {
+    padding: 0 20px 30px;
+  }
 }

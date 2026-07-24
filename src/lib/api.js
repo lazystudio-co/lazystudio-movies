@@ -12,23 +12,51 @@ async function tmdbFetch(path) {
 }
 
 export const api = {
-  trendingMovies: () => tmdbFetch('/trending/movie/week'),
-  trendingTV: () => tmdbFetch('/trending/tv/week'),
-  searchMovies: (q) => tmdbFetch(`/search/movie?query=${encodeURIComponent(q)}`),
-  searchTV: (q) => tmdbFetch(`/search/tv?query=${encodeURIComponent(q)}`),
+  trendingAll: (page = 1) => tmdbFetch(`/trending/all/week?page=${page}`),
+  trendingMovies: (page = 1) => tmdbFetch(`/trending/movie/week?page=${page}`),
+  trendingTV: (page = 1) => tmdbFetch(`/trending/tv/week?page=${page}`),
+  searchMovies: (q, page = 1) => tmdbFetch(`/search/movie?query=${encodeURIComponent(q)}&page=${page}`),
+  searchTV: (q, page = 1) => tmdbFetch(`/search/tv?query=${encodeURIComponent(q)}&page=${page}`),
   movieDetails: (id) => tmdbFetch(`/movie/${id}`),
   tvDetails: (id) => tmdbFetch(`/tv/${id}`),
   seasonDetails: (id, season) => tmdbFetch(`/tv/${id}/season/${season}`),
-  trendingAnime: () => tmdbFetch('/discover/tv?with_genres=16&with_original_language=ja&sort_by=popularity.desc'),
-  searchAnime: (q) => tmdbFetch(`/search/tv?query=${encodeURIComponent(q)}`)
+  trendingAnime: (page = 1) => tmdbFetch(`/discover/tv?with_genres=16&with_original_language=ja&sort_by=popularity.desc&page=${page}`),
+  searchAnime: (q, page = 1) => tmdbFetch(`/search/tv?query=${encodeURIComponent(q)}&page=${page}`)
     .then(d => {
       const results = (d.results || []).filter(item => 
         (item.genre_ids && item.genre_ids.includes(16)) || 
         item.original_language === 'ja' ||
         (item.origin_country && item.origin_country.includes('JP'))
       )
-      return { results }
+      return { results, total_pages: d.total_pages }
     }),
+  topRatedMovies: (page = 1) => tmdbFetch(`/movie/top_rated?page=${page}`),
+  popularMovies: (page = 1) => tmdbFetch(`/movie/popular?page=${page}`),
+  popularTV: (page = 1) => tmdbFetch(`/tv/popular?page=${page}`),
+  topRatedTV: (page = 1) => tmdbFetch(`/tv/top_rated?page=${page}`),
+  discoverGenreMovies: (genreId, page = 1) => tmdbFetch(`/discover/movie?with_genres=${genreId}&sort_by=popularity.desc&page=${page}`),
+  searchMulti: (q, page = 1) => tmdbFetch(`/search/multi?query=${encodeURIComponent(q)}&page=${page}`),
+  
+  discoverMovies: ({ genre, year, sortBy, page = 1 }) => {
+    let path = `/discover/movie?page=${page}`
+    if (genre) path += `&with_genres=${genre}`
+    if (year) path += `&primary_release_year=${year}`
+    if (sortBy) path += `&sort_by=${sortBy}`
+    return tmdbFetch(path)
+  },
+  discoverTV: ({ genre, year, sortBy, page = 1 }) => {
+    let path = `/discover/tv?page=${page}`
+    if (genre) path += `&with_genres=${genre}`
+    if (year) path += `&first_air_date_year=${year}`
+    if (sortBy) path += `&sort_by=${sortBy}`
+    return tmdbFetch(path)
+  },
+  discoverAnime: ({ genre, sortBy, page = 1 }) => {
+    let path = `/discover/tv?with_genres=16&with_original_language=ja&origin_country=JP&page=${page}`
+    if (genre && genre !== '16') path += `,${genre}`
+    if (sortBy) path += `&sort_by=${sortBy}`
+    return tmdbFetch(path)
+  }
 }
 
 export function movieEmbedUrl(tmdbId) {

@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { Search, X } from 'lucide-react'
+import Home from './pages/Home.jsx'
 import Movies from './pages/Movies.jsx'
 import TV from './pages/TV.jsx'
 import Anime from './pages/Anime.jsx'
 import styles from './App.module.css'
 
 function clearMovieSession() {
-  ['mv_query', 'mv_player'].forEach(k => sessionStorage.removeItem(k))
+  ['mv_query', 'mv_player', 'home_selected_tv', 'home_player'].forEach(k => sessionStorage.removeItem(k))
 }
 
 export default function App() {
-  const [tab, setTab] = useState(() => sessionStorage.getItem('cs_tab') || 'movies')
+  const [tab, setTab] = useState(() => sessionStorage.getItem('cs_tab') || 'home')
   const [homeKey, setHomeKey] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -21,8 +22,8 @@ export default function App() {
 
   function goHome() {
     clearMovieSession()
-    setTab('movies')
-    sessionStorage.setItem('cs_tab', 'movies')
+    setTab('home')
+    sessionStorage.setItem('cs_tab', 'home')
     setHomeKey(k => k + 1)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -35,6 +36,12 @@ export default function App() {
             LazyStudio
           </button>
           <nav className={styles.tabs}>
+            <button
+              className={`${styles.tab} ${tab === 'home' ? styles.active : ''}`}
+              onClick={() => goTab('home')}
+            >
+              Home
+            </button>
             <button
               className={`${styles.tab} ${tab === 'movies' ? styles.active : ''}`}
               onClick={() => goTab('movies')}
@@ -80,7 +87,8 @@ export default function App() {
       </header>
 
       <main className={styles.main}>
-        {tab === 'movies' && <Movies searchQuery={searchQuery} key={homeKey} />}
+        {tab === 'home' && <Home searchQuery={searchQuery} key={homeKey} />}
+        {tab === 'movies' && <Movies searchQuery={searchQuery} />}
         {tab === 'tv' && <TV searchQuery={searchQuery} />}
         {tab === 'anime' && <Anime searchQuery={searchQuery} />}
       </main>

@@ -1,0 +1,87 @@
+.filterBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  padding: 0 clamp(1rem, 4vw, 3.5rem);
+  animation: filterFadeIn 0.5s ease both;
+}
+
+@keyframes filterFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.filtersGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #888888;
+  letter-spacing: 0.05em;
+  font-family: var(--font-sans);
+}
+
+.select {
+  background: #141414;
+  border: 1px solid #333333;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  min-width: 140px;
+  transition: all 0.2s ease;
+}
+
+.select:hover, .select:focus {
+  border-color: #ffffff;
+  background: #000000;
+}
+
+.clearBtn {
+  background: transparent;
+  border: 1px solid #444444;
+  color: #a3a3a3;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+  align-self: flex-end;
+  margin-top: auto;
+}
+
+.clearBtn:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+  .filterBar {
+    gap: 12px;
+  }
+  .select {
+    min-width: 120px;
+  }
+}
