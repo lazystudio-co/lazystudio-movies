@@ -54,7 +54,7 @@ export default function Player({
         <button className={styles.closeBtn} onClick={onClose} aria-label="Close Player">
           <X size={18} />
         </button>
-        
+
         <div className={styles.mediaArea}>
           {videoSrc ? (
             <iframe
@@ -65,8 +65,8 @@ export default function Player({
               className={styles.iframe}
             />
           ) : (
-            <div 
-              className={styles.backdropPreview} 
+            <div
+              className={styles.backdropPreview}
               style={{ backgroundImage: backdrop ? `url(${backdrop})` : 'none' }}
             >
               <div className={styles.backdropOverlay} />
@@ -96,13 +96,13 @@ export default function Player({
             {videoSrc && (
               <div className={styles.serversRow}>
                 <span className={styles.serverLabel}>Server:</span>
-                <button 
+                <button
                   className={`${styles.serverBtn} ${activeServer === 'codespecters' ? styles.serverActive : ''}`}
                   onClick={() => setActiveServer('codespecters')}
                 >
                   Server 1
                 </button>
-                <button 
+                <button
                   className={`${styles.serverBtn} ${activeServer === 'streamrip' ? styles.serverActive : ''}`}
                   onClick={() => setActiveServer('streamrip')}
                 >
