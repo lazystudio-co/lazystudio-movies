@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Search, X } from 'lucide-react'
 import Movies from './pages/Movies.jsx'
 import TV from './pages/TV.jsx'
 import styles from './App.module.css'
@@ -10,6 +11,7 @@ function clearMovieSession() {
 export default function App() {
   const [tab, setTab] = useState(() => sessionStorage.getItem('cs_tab') || 'movies')
   const [homeKey, setHomeKey] = useState(0)
+  const [searchQuery, setSearchQuery] = useState('')
 
   function goTab(t) {
     setTab(t)
@@ -46,12 +48,34 @@ export default function App() {
             </button>
           </nav>
         </div>
+
+        <div className={styles.headerRight}>
+          <div className={styles.searchBarWrapper}>
+            <Search className={styles.searchIcon} size={16} />
+            <input
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Titles, people, genres..."
+              className={styles.input}
+            />
+            {searchQuery && (
+              <button 
+                type="button" 
+                className={styles.clearBtn} 
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+        </div>
       </header>
 
       <main className={styles.main}>
         {tab === 'movies'
-          ? <Movies key={homeKey} />
-          : <TV />
+          ? <Movies searchQuery={searchQuery} key={homeKey} />
+          : <TV searchQuery={searchQuery} />
         }
       </main>
 

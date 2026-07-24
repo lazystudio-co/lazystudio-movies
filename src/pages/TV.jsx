@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Search, Play, Info, Star } from 'lucide-react'
 import { api, tvEmbedUrl, formatRating, getYear, backdropUrl, posterUrl } from '../lib/api.js'
 import MediaGrid from '../components/MediaGrid.jsx'
 import Player from '../components/Player.jsx'
@@ -8,8 +9,7 @@ import styles from './TV.module.css'
 function persist(key, val) { try { sessionStorage.setItem(key, JSON.stringify(val)) } catch {} }
 function hydrate(key) { try { const v = sessionStorage.getItem(key); return v ? JSON.parse(v) : null } catch { return null } }
 
-export default function TV() {
-  const [query, setQuery] = useState(() => hydrate('tv_query') || '')
+export default function TV({ searchQuery }) {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(true)
   const [featured, setFeatured] = useState(null)
@@ -18,51 +18,34 @@ export default function TV() {
 
   // Load trending or restore last search
   useEffect(() => {
-    const savedQuery = hydrate('tv_query') || ''
-    if (savedQuery) {
-      api.searchTV(savedQuery)
-        .then(d => {
-          setResults(d.results || [])
-          setFeatured(null)
-        })
-        .finally(() => setLoading(false))
-    } else {
-      api.trendingTV()
-        .then(d => {
-          const items = d.results || []
-          setResults(items)
-          if (items.length > 0) {
-            setFeatured(items[0])
-          }
-        })
-        .finally(() => setLoading(false))
-    }
-  }, [])
+    const q = searchQuery.trim()
+    
+    const delayDebounce = setTimeout(() => {
+      setLoading(true)
+      setResults([])
 
-  async function search(e) {
-    e.preventDefault()
-    const q = query.trim()
-    setLoading(true)
-    setResults([])
-
-    if (!q) {
-      persist('tv_query', '')
-      const d = await api.trendingTV()
-      const items = d.results || []
-      setResults(items)
-      if (items.length > 0) {
-        setFeatured(items[0])
+      if (!q) {
+        api.trendingTV()
+          .then(d => {
+            const items = d.results || []
+            setResults(items)
+            if (items.length > 0) {
+              setFeatured(items[0])
+            }
+          })
+          .finally(() => setLoading(false))
+      } else {
+        setFeatured(null)
+        api.searchTV(q)
+          .then(d => {
+            setResults(d.results || [])
+          })
+          .finally(() => setLoading(false))
       }
-      setLoading(false)
-      return
-    }
+    }, q ? 300 : 0)
 
-    setFeatured(null)
-    persist('tv_query', q)
-    const d = await api.searchTV(q)
-    setResults(d.results || [])
-    setLoading(false)
-  }
+    return () => clearTimeout(delayDebounce)
+  }, [searchQuery])
 
   function handlePlay(season, episode) {
     if (!selected) return
@@ -92,18 +75,6 @@ export default function TV() {
 
   return (
     <div>
-      <form className={styles.searchRow} onSubmit={search}>
-        <div className={styles.searchBarWrapper}>
-          <span className={styles.searchIcon}>🔍</span>
-          <input
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Titles, people, genres..."
-            className={styles.input}
-          />
-        </div>
-        <button type="submit" className={styles.btn}>Search</button>
-      </form>
 
       {featured && (
         <div 
@@ -118,7 +89,12 @@ export default function TV() {
             <h1 className={styles.heroTitle}>{featured.name}</h1>
             <div className={styles.heroMeta}>
               {getYear(featured.first_air_date) && <span className={styles.heroMetaItem}>{getYear(featured.first_air_date)}</span>}
-              {formatRating(featured.vote_average) && <span className={styles.heroMetaItem}>★ {formatRating(featured.vote_average)}</span>}
+              {formatRating(featured.vote_average) && (
+                <span className={`${styles.heroMetaItem} ${styles.heroRating}`}>
+                  <Star size={12} fill="currentColor" stroke="none" />
+                  {formatRating(featured.vote_average)}
+                </span>
+              )}
             </div>
             <p className={styles.heroOverview}>{featured.overview}</p>
             <div className={styles.heroBtns}>
@@ -140,7 +116,7 @@ export default function TV() {
                   persist('tv_player', p)
                 }}
               >
-                ▶ Play
+                <Play size={14} fill="currentColor" /> Play
               </button>
               <button 
                 className={styles.heroInfoBtn} 
@@ -151,7 +127,7 @@ export default function TV() {
                   persist('tv_player', null)
                 }}
               >
-                More Info
+                <Info size={15} /> More Info
               </button>
             </div>
           </div>

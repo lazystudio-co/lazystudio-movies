@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Search, Play, Info, Star } from 'lucide-react'
 import { api, movieEmbedUrl, formatRating, getYear, backdropUrl, posterUrl } from '../lib/api.js'
 import MediaGrid from '../components/MediaGrid.jsx'
 import Player from '../components/Player.jsx'
@@ -11,64 +12,46 @@ function hydrate(key) {
   try { const v = sessionStorage.getItem(key); return v ? JSON.parse(v) : null } catch { return null }
 }
 
-export default function Movies() {
-  const savedQuery = hydrate('mv_query') || ''
+export default function Movies({ searchQuery }) {
   const savedPlayer = hydrate('mv_player')
 
-  const [query, setQuery] = useState(savedQuery)
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(true)
   const [featured, setFeatured] = useState(null)
-  const [label, setLabel] = useState(savedQuery ? 'Results' : 'Trending Now')
+  const [label, setLabel] = useState('Trending Now')
   const [player, setPlayer] = useState(savedPlayer)
 
   useEffect(() => {
-    if (savedQuery) {
-      api.searchMovies(savedQuery)
-        .then(d => {
-          setResults(d.results || [])
-          setFeatured(null)
-        })
-        .finally(() => setLoading(false))
-    } else {
-      api.trendingMovies()
-        .then(d => {
-          const items = d.results || []
-          setResults(items)
-          if (items.length > 0) {
-            setFeatured(items[0])
-          }
-        })
-        .finally(() => setLoading(false))
-    }
-  }, [])
-
-  async function search(e) {
-    e.preventDefault()
-    const q = query.trim()
-    setLoading(true)
-    setResults([])
+    const q = searchQuery.trim()
     
-    if (!q) {
-      setLabel('Trending Now')
-      persist('mv_query', '')
-      const d = await api.trendingMovies()
-      const items = d.results || []
-      setResults(items)
-      if (items.length > 0) {
-        setFeatured(items[0])
-      }
-      setLoading(false)
-      return
-    }
+    const delayDebounce = setTimeout(() => {
+      setLoading(true)
+      setResults([])
 
-    setLabel('Results')
-    setFeatured(null)
-    persist('mv_query', q)
-    const d = await api.searchMovies(q)
-    setResults(d.results || [])
-    setLoading(false)
-  }
+      if (!q) {
+        setLabel('Trending Now')
+        api.trendingMovies()
+          .then(d => {
+            const items = d.results || []
+            setResults(items)
+            if (items.length > 0) {
+              setFeatured(items[0])
+            }
+          })
+          .finally(() => setLoading(false))
+      } else {
+        setLabel('Results')
+        setFeatured(null)
+        api.searchMovies(q)
+          .then(d => {
+            setResults(d.results || [])
+          })
+          .finally(() => setLoading(false))
+      }
+    }, q ? 300 : 0)
+
+    return () => clearTimeout(delayDebounce)
+  }, [searchQuery])
 
   function select(item) {
     const p = {
@@ -90,18 +73,6 @@ export default function Movies() {
 
   return (
     <div>
-      <form className={styles.searchRow} onSubmit={search}>
-        <div className={styles.searchBarWrapper}>
-          <span className={styles.searchIcon}>🔍</span>
-          <input
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Titles, people, genres..."
-            className={styles.input}
-          />
-        </div>
-        <button type="submit" className={styles.btn}>Search</button>
-      </form>
 
       {featured && (
         <div 
@@ -116,15 +87,20 @@ export default function Movies() {
             <h1 className={styles.heroTitle}>{featured.title}</h1>
             <div className={styles.heroMeta}>
               {getYear(featured.release_date) && <span className={styles.heroMetaItem}>{getYear(featured.release_date)}</span>}
-              {formatRating(featured.vote_average) && <span className={styles.heroMetaItem}>★ {formatRating(featured.vote_average)}</span>}
+              {formatRating(featured.vote_average) && (
+                <span className={`${styles.heroMetaItem} ${styles.heroRating}`}>
+                  <Star size={12} fill="currentColor" stroke="none" />
+                  {formatRating(featured.vote_average)}
+                </span>
+              )}
             </div>
             <p className={styles.heroOverview}>{featured.overview}</p>
             <div className={styles.heroBtns}>
               <button className={styles.heroPlayBtn} onClick={() => select(featured)}>
-                ▶ Play
+                <Play size={14} fill="currentColor" /> Play
               </button>
               <button className={styles.heroInfoBtn} onClick={() => select(featured)}>
-                More Info
+                <Info size={15} /> More Info
               </button>
             </div>
           </div>

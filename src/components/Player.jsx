@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { X, Play, Star } from 'lucide-react'
 import styles from './Player.module.css'
 
 export default function Player({
@@ -30,7 +31,9 @@ export default function Player({
   return (
     <div className={styles.overlay} onClick={handleOverlayClick}>
       <div className={styles.modal}>
-        <button className={styles.closeBtn} onClick={onClose} aria-label="Close Player">✕</button>
+        <button className={styles.closeBtn} onClick={onClose} aria-label="Close Player">
+          <X size={18} />
+        </button>
         
         <div className={styles.mediaArea}>
           {src ? (
@@ -49,7 +52,7 @@ export default function Player({
               <div className={styles.backdropOverlay} />
               {onPlayDefault && (
                 <button className={styles.playBtn} onClick={onPlayDefault}>
-                  <span className={styles.playIcon}>▶</span> Play Episode 1
+                  <Play size={14} fill="currentColor" /> Play Episode 1
                 </button>
               )}
             </div>
@@ -61,7 +64,12 @@ export default function Player({
             <h2 className={styles.title}>{title}</h2>
             <div className={styles.pills}>
               {year && <span className={styles.pill}>{year}</span>}
-              {rating && <span className={styles.pill}>★ {rating}</span>}
+              {rating && (
+                <span className={`${styles.pill} ${styles.ratingPill}`}>
+                  <Star size={11} fill="currentColor" stroke="none" />
+                  {rating}
+                </span>
+              )}
               {badge && <span className={`${styles.pill} ${styles.badge}`}>{badge}</span>}
             </div>
             {overview && <p className={styles.overview}>{overview}</p>}

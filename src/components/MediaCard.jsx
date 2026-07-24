@@ -1,4 +1,5 @@
 import React from 'react'
+import { Star } from 'lucide-react'
 import { posterUrl, formatRating, getYear } from '../lib/api.js'
 import styles from './MediaCard.module.css'
 
@@ -24,7 +25,12 @@ export default function MediaCard({ item, type = 'movie', onClick, selected }) {
         <div className={styles.title} title={title}>{title}</div>
         <div className={styles.metaRow}>
           {year && <span className={styles.year}>{year}</span>}
-          {rating && <span className={styles.rating}>★ {rating}</span>}
+          {rating && (
+            <span className={styles.rating}>
+              <Star size={11} fill="currentColor" stroke="none" />
+              {rating}
+            </span>
+          )}
         </div>
       </div>
     </div>

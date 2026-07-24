@@ -1,69 +1,173 @@
-.searchRow {
+
+
+/* Featured Hero Banner */
+.hero {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  height: 65vh;
+  min-height: 460px;
+  max-height: 620px;
+  background-size: cover;
+  background-position: center 20%;
+  overflow: hidden;
+  margin-top: -2rem;
+  margin-bottom: 3.5rem;
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-bottom: 2rem;
-  width: 100%;
+  align-items: flex-end;
+  border-bottom: 1px solid #141414;
+  animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.searchBarWrapper {
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: scale(1.03); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, #000000 25%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 80%),
+              linear-gradient(to top, #000000 0%, rgba(0, 0, 0, 0.1) 40%, transparent 100%);
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 3.5rem) 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heroBadge {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 8px;
+  border-radius: 2px;
+  align-self: flex-start;
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  max-width: 700px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.heroMeta {
   display: flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0.75);
-  border: 1px solid #333333;
-  padding: 8px 14px;
-  border-radius: 4px;
-  max-width: 320px;
-  width: 100%;
-  transition: all 0.2s ease;
+  gap: 12px;
 }
 
-.searchBarWrapper:focus-within {
-  border-color: #ffffff;
-  background: #000000;
-  box-shadow: 0 0 0 1px #ffffff;
-}
-
-.searchIcon {
-  color: #888888;
+.heroMetaItem {
   font-size: 14px;
-  margin-right: 8px;
-  user-select: none;
+  font-weight: 600;
+  color: #a3a3a3;
 }
 
-.input {
-  background: transparent;
-  border: none;
+.heroRating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   color: #ffffff;
-  font-size: 13px;
-  outline: none;
-  width: 100%;
-  font-family: var(--font-sans);
 }
 
-.btn {
+.heroOverview {
+  font-size: 15px;
+  color: #cccccc;
+  line-height: 1.6;
+  font-family: var(--font-sans);
+  max-width: 550px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.heroBtns {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.heroPlayBtn {
   background: #ffffff;
   color: #000000;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-size: 13px;
+  padding: 12px 28px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
   transition: all 0.2s ease;
   font-family: var(--font-sans);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.btn:hover {
+.heroPlayBtn:hover {
   background: #cccccc;
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
+
+.heroInfoBtn {
+  background: rgba(109, 109, 110, 0.7);
+  color: #ffffff;
+  border: none;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.heroInfoBtn:hover {
+  background: rgba(109, 109, 110, 0.4);
+  transform: scale(1.03);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 50vh;
+    min-height: 380px;
+    margin-bottom: 2rem;
+  }
+  .heroContent {
+    padding: 0 20px 30px;
+  }
+}
+
 
 .sectionLabel {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  margin-bottom: 1rem;
+  font-size: 16px;
+  font-family: var(--font-display);
+  color: #ffffff;
+  margin-bottom: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }

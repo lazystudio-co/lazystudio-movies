@@ -173,6 +173,12 @@
   letter-spacing: 0.05em;
 }
 
+.ratingPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .badge {
   border-color: #555555;
   background: #2a2a2a;

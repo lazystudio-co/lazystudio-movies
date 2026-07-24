@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Play, Star } from 'lucide-react'
 import { api } from '../lib/api.js'
 import styles from './SeasonPicker.module.css'
 
@@ -87,15 +88,22 @@ export default function SeasonPicker({ show, onPlay }) {
                   {ep.still_path ? (
                     <img src={`https://image.tmdb.org/t/p/w300${ep.still_path}`} alt={ep.name} loading="lazy" />
                   ) : (
-                    <div className={styles.epThumbFallback}>▶</div>
+                    <div className={styles.epThumbFallback}>
+                      <Play size={16} fill="currentColor" stroke="none" />
+                    </div>
                   )}
-                  <div className={styles.epPlayOverlay}>▶</div>
+                  <div className={styles.epPlayOverlay}>
+                    <Play size={20} fill="currentColor" stroke="none" />
+                  </div>
                 </div>
                 <div className={styles.epInfo}>
                   <div className={styles.epTitleRow}>
                     <span className={styles.epName}>{ep.name}</span>
                     {ep.vote_average > 0 && (
-                      <span className={styles.epRating}>★ {ep.vote_average.toFixed(1)}</span>
+                      <span className={styles.epRating}>
+                        <Star size={11} fill="currentColor" stroke="none" />
+                        {ep.vote_average.toFixed(1)}
+                      </span>
                     )}
                   </div>
                   {ep.overview && (
