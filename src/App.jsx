@@ -81,16 +81,16 @@ export default function App() {
 
       <footer className={styles.footer}>
         <p className={styles.footerText}>
-          &copy; {new Date().getFullYear()} All rights reserved{' '}
+          &copy; {new Date().getFullYear()}{' '}
           <a
-            href="https://www.codespecters.com/"
+            href="https://lazystudio.co"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.footerLink}
           >
-            Code Specter
+            LazyStudio
           </a>
-          {' '}| Digital Entertainment Democratized
+          . All rights reserved.
         </p>
       </footer>
     </div>
