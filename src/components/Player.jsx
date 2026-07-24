@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { X, Play, Star } from 'lucide-react'
+import { movieEmbedUrl, tvEmbedUrl } from '../lib/api.js'
 import styles from './Player.module.css'
 
 export default function Player({
-  src,
+  tmdbId,
+  type,
+  season,
+  episode,
   backdrop,
   title,
   year,
@@ -14,6 +18,8 @@ export default function Player({
   onPlayDefault,
   children
 }) {
+  const [activeServer, setActiveServer] = useState('codespecters')
+
   useEffect(() => {
     // Lock background scrolling when modal is open
     document.body.style.overflow = 'hidden'
@@ -28,6 +34,20 @@ export default function Player({
     }
   }
 
+  // Construct iframe stream source dynamically based on selected server
+  let videoSrc = ''
+  if (tmdbId) {
+    if (type === 'movie') {
+      videoSrc = activeServer === 'codespecters'
+        ? movieEmbedUrl(tmdbId)
+        : `https://streamrip.fun/movie/${tmdbId}`
+    } else if (type === 'tv' && season && episode) {
+      videoSrc = activeServer === 'codespecters'
+        ? tvEmbedUrl(tmdbId, season, episode)
+        : `https://streamrip.fun/tv/${tmdbId}/${season}/${episode}`
+    }
+  }
+
   return (
     <div className={styles.overlay} onClick={handleOverlayClick}>
       <div className={styles.modal}>
@@ -36,9 +56,9 @@ export default function Player({
         </button>
         
         <div className={styles.mediaArea}>
-          {src ? (
+          {videoSrc ? (
             <iframe
-              src={src}
+              src={videoSrc}
               allowFullScreen
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
               title={title}
@@ -72,6 +92,25 @@ export default function Player({
               )}
               {badge && <span className={`${styles.pill} ${styles.badge}`}>{badge}</span>}
             </div>
+
+            {videoSrc && (
+              <div className={styles.serversRow}>
+                <span className={styles.serverLabel}>Server:</span>
+                <button 
+                  className={`${styles.serverBtn} ${activeServer === 'codespecters' ? styles.serverActive : ''}`}
+                  onClick={() => setActiveServer('codespecters')}
+                >
+                  Server 1
+                </button>
+                <button 
+                  className={`${styles.serverBtn} ${activeServer === 'streamrip' ? styles.serverActive : ''}`}
+                  onClick={() => setActiveServer('streamrip')}
+                >
+                  Server 2
+                </button>
+              </div>
+            )}
+
             {overview && <p className={styles.overview}>{overview}</p>}
           </div>
           {children && <div className={styles.children}>{children}</div>}

@@ -55,7 +55,8 @@ export default function Movies({ searchQuery }) {
 
   function select(item) {
     const p = {
-      src: movieEmbedUrl(item.id),
+      tmdbId: item.id,
+      type: 'movie',
       title: item.title,
       year: getYear(item.release_date),
       rating: formatRating(item.vote_average),

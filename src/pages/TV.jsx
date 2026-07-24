@@ -50,7 +50,10 @@ export default function TV({ searchQuery }) {
   function handlePlay(season, episode) {
     if (!selected) return
     const p = {
-      src: tvEmbedUrl(selected.id, season, episode),
+      tmdbId: selected.id,
+      type: 'tv',
+      season: season,
+      episode: episode,
       title: selected.name,
       year: getYear(selected.first_air_date),
       rating: formatRating(selected.vote_average),
@@ -104,7 +107,10 @@ export default function TV({ searchQuery }) {
                   setSelected(featured)
                   persist('tv_selected', featured)
                   const p = {
-                    src: tvEmbedUrl(featured.id, 1, 1),
+                    tmdbId: featured.id,
+                    type: 'tv',
+                    season: 1,
+                    episode: 1,
                     title: featured.name,
                     year: getYear(featured.first_air_date),
                     rating: formatRating(featured.vote_average),
@@ -136,7 +142,7 @@ export default function TV({ searchQuery }) {
 
       {selected && (
         <Player
-          src={player?.src}
+          {...player}
           backdrop={backdropUrl(selected.backdrop_path, 'w1280') || posterUrl(selected.poster_path, true)}
           title={selected.name}
           year={getYear(selected.first_air_date)}

@@ -196,6 +196,45 @@
   padding-left: 30px;
 }
 
+.serversRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0 10px;
+}
+
+.serverLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.serverBtn {
+  background: #1e1e1e;
+  border: 1px solid #333333;
+  color: #ffffff;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.serverBtn:hover {
+  border-color: #555555;
+  background: #2a2a2a;
+}
+
+.serverBtn.serverActive {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
 @media (max-width: 768px) {
   .details {
     grid-template-columns: 1fr;
