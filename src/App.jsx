@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Search, X } from 'lucide-react'
 import Movies from './pages/Movies.jsx'
 import TV from './pages/TV.jsx'
+import Anime from './pages/Anime.jsx'
 import styles from './App.module.css'
 
 function clearMovieSession() {
@@ -46,6 +47,12 @@ export default function App() {
             >
               TV Shows
             </button>
+            <button
+              className={`${styles.tab} ${tab === 'anime' ? styles.active : ''}`}
+              onClick={() => goTab('anime')}
+            >
+              Anime
+            </button>
           </nav>
         </div>
 
@@ -73,10 +80,9 @@ export default function App() {
       </header>
 
       <main className={styles.main}>
-        {tab === 'movies'
-          ? <Movies searchQuery={searchQuery} key={homeKey} />
-          : <TV searchQuery={searchQuery} />
-        }
+        {tab === 'movies' && <Movies searchQuery={searchQuery} key={homeKey} />}
+        {tab === 'tv' && <TV searchQuery={searchQuery} />}
+        {tab === 'anime' && <Anime searchQuery={searchQuery} />}
       </main>
 
       <footer className={styles.footer}>

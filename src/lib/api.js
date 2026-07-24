@@ -19,6 +19,16 @@ export const api = {
   movieDetails: (id) => tmdbFetch(`/movie/${id}`),
   tvDetails: (id) => tmdbFetch(`/tv/${id}`),
   seasonDetails: (id, season) => tmdbFetch(`/tv/${id}/season/${season}`),
+  trendingAnime: () => tmdbFetch('/discover/tv?with_genres=16&with_original_language=ja&sort_by=popularity.desc'),
+  searchAnime: (q) => tmdbFetch(`/search/tv?query=${encodeURIComponent(q)}`)
+    .then(d => {
+      const results = (d.results || []).filter(item => 
+        (item.genre_ids && item.genre_ids.includes(16)) || 
+        item.original_language === 'ja' ||
+        (item.origin_country && item.origin_country.includes('JP'))
+      )
+      return { results }
+    }),
 }
 
 export function movieEmbedUrl(tmdbId) {
