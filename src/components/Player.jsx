@@ -18,7 +18,7 @@ export default function Player({
   onPlayDefault,
   children
 }) {
-  const [activeServer, setActiveServer] = useState('codespecters')
+  const [activeServer, setActiveServer] = useState('hnembed')
 
   useEffect(() => {
     // Lock background scrolling when modal is open
@@ -105,8 +105,8 @@ export default function Player({
               <div className={styles.serversRow}>
                 <span className={styles.serverLabel}>Server:</span>
                 <button
-                  className={`${styles.serverBtn} ${activeServer === 'codespecters' ? styles.serverActive : ''}`}
-                  onClick={() => setActiveServer('codespecters')}
+                  className={`${styles.serverBtn} ${activeServer === 'hnembed' ? styles.serverActive : ''}`}
+                  onClick={() => setActiveServer('hnembed')}
                 >
                   Server 1
                 </button>
@@ -117,8 +117,8 @@ export default function Player({
                   Server 2
                 </button>
                 <button
-                  className={`${styles.serverBtn} ${activeServer === 'hnembed' ? styles.serverActive : ''}`}
-                  onClick={() => setActiveServer('hnembed')}
+                  className={`${styles.serverBtn} ${activeServer === 'codespecters' ? styles.serverActive : ''}`}
+                  onClick={() => setActiveServer('codespecters')}
                 >
                   Server 3
                 </button>
