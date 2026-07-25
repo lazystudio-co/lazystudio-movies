@@ -47,6 +47,10 @@ export default function Movies({ searchQuery }) {
   const [seeAllPage, setSeeAllPage] = useState(1)
   const [seeAllTotalPages, setSeeAllTotalPages] = useState(1)
 
+  // Search state
+  const [searchResults, setSearchResults] = useState([])
+  const [searchLoading, setSearchLoading] = useState(false)
+
   const [player, setPlayer] = useState(() => hydrate('mv_player'))
 
   // Load category datasets on mount
@@ -92,6 +96,26 @@ export default function Movies({ searchQuery }) {
       setFilterTotalPages(d.total_pages || 1)
     }).finally(() => setDiscoverLoading(false))
   }, [filters, filterPage, searchQuery, hasActiveFilters])
+
+  // Execute global search
+  useEffect(() => {
+    const q = searchQuery.trim()
+    if (!q) {
+      setSearchResults([])
+      return
+    }
+
+    setSearchLoading(true)
+    const delayDebounce = setTimeout(() => {
+      api.searchMovies(q)
+        .then(d => {
+          setSearchResults(d.results || [])
+        })
+        .finally(() => setSearchLoading(false))
+    }, 300)
+
+    return () => clearTimeout(delayDebounce)
+  }, [searchQuery])
 
   // Reset page index on filter updates
   useEffect(() => {
@@ -153,6 +177,29 @@ export default function Movies({ searchQuery }) {
           currentPage={seeAllPage}
           totalPages={seeAllTotalPages}
           onPageChange={setSeeAllPage}
+        />
+
+        {player && (
+          <Player {...player} onClose={closePlayer} />
+        )}
+      </div>
+    )
+  }
+
+  // Render global search grid
+  if (searchQuery.trim()) {
+    return (
+      <div className={styles.seeAllContainer}>
+        <div className={styles.seeAllHeader}>
+          <h1 className={styles.seeAllTitle}>Search Results</h1>
+        </div>
+
+        <MediaGrid
+          items={searchResults}
+          type="movie"
+          loading={searchLoading}
+          onSelect={select}
+          selectedId={player?.selectedId}
         />
 
         {player && (

@@ -48,6 +48,10 @@ export default function Anime({ searchQuery }) {
   const [seeAllPage, setSeeAllPage] = useState(1)
   const [seeAllTotalPages, setSeeAllTotalPages] = useState(1)
 
+  // Search state
+  const [searchResults, setSearchResults] = useState([])
+  const [searchLoading, setSearchLoading] = useState(false)
+
   const [selected, setSelected] = useState(() => hydrate('ani_selected'))
   const [player, setPlayer] = useState(() => hydrate('ani_player'))
 
@@ -94,6 +98,26 @@ export default function Anime({ searchQuery }) {
       setFilterTotalPages(d.total_pages || 1)
     }).finally(() => setDiscoverLoading(false))
   }, [filters, filterPage, searchQuery, hasActiveFilters])
+
+  // Execute global search
+  useEffect(() => {
+    const q = searchQuery.trim()
+    if (!q) {
+      setSearchResults([])
+      return
+    }
+
+    setSearchLoading(true)
+    const delayDebounce = setTimeout(() => {
+      api.searchAnime(q)
+        .then(d => {
+          setSearchResults(d.results || [])
+        })
+        .finally(() => setSearchLoading(false))
+    }, 300)
+
+    return () => clearTimeout(delayDebounce)
+  }, [searchQuery])
 
   // Reset page index on filter updates
   useEffect(() => {
@@ -170,6 +194,46 @@ export default function Anime({ searchQuery }) {
           currentPage={seeAllPage}
           totalPages={seeAllTotalPages}
           onPageChange={setSeeAllPage}
+        />
+
+        {selected && (
+          <Player
+            {...player}
+            backdrop={backdropUrl(selected.backdrop_path, 'w1280') || posterUrl(selected.poster_path, true)}
+            title={selected.name}
+            year={getYear(selected.first_air_date)}
+            rating={formatRating(selected.vote_average)}
+            overview={selected.overview}
+            badge={player?.badge}
+            onClose={handleCloseModal}
+            onPlayDefault={handlePlayDefault}
+          >
+            <SeasonPicker show={selected} onPlay={handlePlay} />
+          </Player>
+        )}
+      </div>
+    )
+  }
+
+  // Render global search grid
+  if (searchQuery.trim()) {
+    return (
+      <div className={styles.seeAllContainer}>
+        <div className={styles.seeAllHeader}>
+          <h1 className={styles.seeAllTitle}>Search Results</h1>
+        </div>
+
+        <MediaGrid
+          items={searchResults}
+          type="tv"
+          loading={searchLoading}
+          onSelect={(item) => {
+            setSelected(item)
+            persist('ani_selected', item)
+            setPlayer(null)
+            persist('ani_player', null)
+          }}
+          selectedId={selected?.id}
         />
 
         {selected && (

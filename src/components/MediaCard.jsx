@@ -4,8 +4,9 @@ import { posterUrl, formatRating, getYear } from '../lib/api.js'
 import styles from './MediaCard.module.css'
 
 export default function MediaCard({ item, type = 'movie', onClick, selected }) {
-  const title = type === 'movie' ? item.title : item.name
-  const date = type === 'movie' ? item.release_date : item.first_air_date
+  const cardType = item.media_type || type
+  const title = cardType === 'movie' ? item.title : item.name
+  const date = cardType === 'movie' ? item.release_date : item.first_air_date
   const year = getYear(date)
   const rating = formatRating(item.vote_average)
   const poster = posterUrl(item.poster_path)
