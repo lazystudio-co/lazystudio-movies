@@ -245,9 +245,6 @@
 
 .adContainer {
   margin: 3rem auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   max-width: 1400px;
   padding: 0 clamp(1rem, 4vw, 3.5rem);
