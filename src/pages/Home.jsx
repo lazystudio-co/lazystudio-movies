@@ -9,7 +9,7 @@ import FilterBar from '../components/FilterBar.jsx'
 import Pagination from '../components/Pagination.jsx'
 import styles from './Home.module.css'
 
-function persist(key, val) { try { sessionStorage.setItem(key, JSON.stringify(val)) } catch {} }
+function persist(key, val) { try { sessionStorage.setItem(key, JSON.stringify(val)) } catch { } }
 function hydrate(key) { try { const v = sessionStorage.getItem(key); return v ? JSON.parse(v) : null } catch { return null } }
 
 export default function Home({ searchQuery }) {
@@ -68,7 +68,7 @@ export default function Home({ searchQuery }) {
     ]).then(([trend, topM, popM, popT, act, fan, rom, fun]) => {
       const trendingItems = trend.results || []
       setTrending(trendingItems)
-      
+
       // Filter trending movies for featured hero banner
       const movies = trendingItems.filter(item => item.media_type === 'movie' || (!item.media_type && item.title))
       if (movies.length > 0) {
@@ -76,7 +76,7 @@ export default function Home({ searchQuery }) {
       } else if (trendingItems.length > 0) {
         setFeatured(trendingItems[0])
       }
-      
+
       setTopRatedMovies(topM.results || [])
       setPopularMovies(popM.results || [])
       setPopularTV(popT.results || [])
@@ -110,7 +110,7 @@ export default function Home({ searchQuery }) {
 
   // Fetch discover query based on filter selections
   const hasActiveFilters = filters.genre || filters.year || (filters.contentType && filters.contentType !== 'all') || filters.sortBy !== 'popularity.desc'
-  
+
   useEffect(() => {
     if (!hasActiveFilters || searchQuery.trim()) return
 
@@ -320,10 +320,10 @@ export default function Home({ searchQuery }) {
     <div>
       {/* Featured Banner */}
       {featured && !hasActiveFilters && (
-        <div 
-          className={styles.hero} 
-          style={{ 
-            backgroundImage: `url(${backdropUrl(featured.backdrop_path, 'original') || posterUrl(featured.poster_path, true)})` 
+        <div
+          className={styles.hero}
+          style={{
+            backgroundImage: `url(${backdropUrl(featured.backdrop_path, 'original') || posterUrl(featured.poster_path, true)})`
           }}
         >
           <div className={styles.heroOverlay} />
@@ -353,10 +353,10 @@ export default function Home({ searchQuery }) {
       )}
 
       {/* Filter Bar */}
-      <FilterBar 
-        pageType="home" 
-        filters={filters} 
-        onChange={setFilters} 
+      <FilterBar
+        pageType="home"
+        filters={filters}
+        onChange={setFilters}
       />
 
       {/* Discover Filtered Grid (Shown when filters are active) */}
@@ -396,6 +396,29 @@ export default function Home({ searchQuery }) {
                 })
               }}
             />
+
+            {/* expad */}
+            <div className={styles.adContainer}>
+              <ins
+                className="adsbygoogle"
+                style={{ display: 'block' }}
+                data-ad-client="ca-pub-2988471757020856"
+                data-ad-slot="9353223324"
+                data-ad-format="auto"
+                data-full-width-responsive="true"
+                ref={(el) => {
+                  if (el && !el.dataset.adInitialized) {
+                    try {
+                      (window.adsbygoogle = window.adsbygoogle || []).push({});
+                      el.dataset.adInitialized = 'true';
+                    } catch (e) {
+                      console.error('Adsense error:', e);
+                    }
+                  }
+                }}
+              />
+            </div>
+
             <MediaRow
               title="Top Rated Movies"
               items={topRatedMovies}
