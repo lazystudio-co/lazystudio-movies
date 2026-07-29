@@ -287,6 +287,29 @@ export default function Movies({ searchQuery }) {
                 })
               }}
             />
+
+            {/* expad */}
+            <div className={styles.adContainer}>
+              <ins
+                className="adsbygoogle"
+                style={{ display: 'block' }}
+                data-ad-client="ca-pub-2988471757020856"
+                data-ad-slot="9353223324"
+                data-ad-format="auto"
+                data-full-width-responsive="true"
+                ref={(el) => {
+                  if (el && !el.dataset.adInitialized) {
+                    try {
+                      (window.adsbygoogle = window.adsbygoogle || []).push({});
+                      el.dataset.adInitialized = 'true';
+                    } catch (e) {
+                      console.error('Adsense error:', e);
+                    }
+                  }
+                }}
+              />
+            </div>
+
             <MediaRow
               title="Top Rated Movies"
               items={topRated}

@@ -242,3 +242,16 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+.adContainer {
+  margin: 3rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 clamp(1rem, 4vw, 3.5rem);
+  box-sizing: border-box;
+  min-height: 100px;
+}
+
