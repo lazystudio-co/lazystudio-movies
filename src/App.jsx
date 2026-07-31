@@ -33,7 +33,7 @@ export default function App() {
       <header className={styles.header}>
         <div className={styles.headerLeft}>
           <button className={styles.logo} onClick={goHome} aria-label="Go to home">
-            LazyStudio
+            Lazy Movies
           </button>
           <nav className={styles.tabs}>
             <button
