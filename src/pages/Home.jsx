@@ -34,6 +34,7 @@ export default function Home({ searchQuery }) {
   const [filters, setFilters] = useState({
     genre: '',
     year: '',
+    country: '',
     sortBy: 'popularity.desc',
     contentType: 'all'
   })
@@ -109,7 +110,7 @@ export default function Home({ searchQuery }) {
   }, [searchQuery])
 
   // Fetch discover query based on filter selections
-  const hasActiveFilters = filters.genre || filters.year || (filters.contentType && filters.contentType !== 'all') || filters.sortBy !== 'popularity.desc'
+  const hasActiveFilters = filters.genre || filters.year || filters.country || (filters.contentType && filters.contentType !== 'all') || filters.sortBy !== 'popularity.desc'
 
   useEffect(() => {
     if (!hasActiveFilters || searchQuery.trim()) return
@@ -117,18 +118,18 @@ export default function Home({ searchQuery }) {
     setDiscoverLoading(true)
     setDiscoverResults([])
 
-    const { genre, year, sortBy } = filters
+    const { genre, year, sortBy, country } = filters
     const type = filters.contentType || 'all'
 
     if (type === 'movie') {
-      api.discoverMovies({ genre, year, sortBy, page: filterPage })
+      api.discoverMovies({ genre, year, sortBy, country, page: filterPage })
         .then(d => {
           setDiscoverResults(d.results || [])
           setFilterTotalPages(d.total_pages || 1)
         })
         .finally(() => setDiscoverLoading(false))
     } else if (type === 'tv') {
-      api.discoverTV({ genre, year, sortBy, page: filterPage })
+      api.discoverTV({ genre, year, sortBy, country, page: filterPage })
         .then(d => {
           setDiscoverResults(d.results || [])
           setFilterTotalPages(d.total_pages || 1)
@@ -136,8 +137,8 @@ export default function Home({ searchQuery }) {
         .finally(() => setDiscoverLoading(false))
     } else {
       // Mixed type: fetch both in parallel and merge
-      const moviePromise = api.discoverMovies({ genre, year, sortBy, page: filterPage })
-      const tvPromise = api.discoverTV({ genre, year, sortBy, page: filterPage })
+      const moviePromise = api.discoverMovies({ genre, year, sortBy, country, page: filterPage })
+      const tvPromise = api.discoverTV({ genre, year, sortBy, country, page: filterPage })
 
       Promise.all([moviePromise, tvPromise])
         .then(([movies, tv]) => {

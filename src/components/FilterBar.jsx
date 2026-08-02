@@ -15,6 +15,21 @@ const GENRES = [
 
 const YEARS = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019']
 
+const COUNTRIES = [
+  { code: 'US', name: 'United States' },
+  { code: 'IN', name: 'India' },
+  { code: 'KR', name: 'South Korea' },
+  { code: 'JP', name: 'Japan' },
+  { code: 'GB', name: 'United Kingdom' },
+  { code: 'FR', name: 'France' },
+  { code: 'ES', name: 'Spain' },
+  { code: 'IT', name: 'Italy' },
+  { code: 'DE', name: 'Germany' },
+  { code: 'CA', name: 'Canada' },
+  { code: 'CN', name: 'China' },
+  { code: 'AU', name: 'Australia' }
+]
+
 export default function FilterBar({ pageType, filters, onChange }) {
   const isHome = pageType === 'home'
   
@@ -29,12 +44,13 @@ export default function FilterBar({ pageType, filters, onChange }) {
     onChange({
       genre: '',
       year: '',
+      country: '',
       sortBy: 'popularity.desc',
       contentType: 'all'
     })
   }
 
-  const hasActiveFilters = filters.genre || filters.year || (filters.contentType && filters.contentType !== 'all') || filters.sortBy !== 'popularity.desc'
+  const hasActiveFilters = filters.genre || filters.year || filters.country || (filters.contentType && filters.contentType !== 'all') || filters.sortBy !== 'popularity.desc'
 
   return (
     <div className={styles.filterBar}>
@@ -82,6 +98,23 @@ export default function FilterBar({ pageType, filters, onChange }) {
               <option value="">All Years</option>
               {YEARS.map(y => (
                 <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {/* Country Filter - Show everywhere except anime */}
+        {pageType !== 'anime' && (
+          <div className={styles.selectWrapper}>
+            <label className={styles.label}>Country</label>
+            <select
+              value={filters.country || ''}
+              onChange={e => handleSelect('country', e.target.value)}
+              className={styles.select}
+            >
+              <option value="">All Countries</option>
+              {COUNTRIES.map(c => (
+                <option key={c.code} value={c.code}>{c.name}</option>
               ))}
             </select>
           </div>

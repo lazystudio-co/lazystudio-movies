@@ -34,6 +34,7 @@ export default function TV({ searchQuery }) {
   // Filter states
   const [filters, setFilters] = useState({
     genre: '',
+    country: '',
     sortBy: 'popularity.desc'
   })
   const [filterPage, setFilterPage] = useState(1)
@@ -81,7 +82,7 @@ export default function TV({ searchQuery }) {
   }, [])
 
   // Execute discover filter queries
-  const hasActiveFilters = filters.genre || filters.sortBy !== 'popularity.desc'
+  const hasActiveFilters = filters.genre || filters.country || filters.sortBy !== 'popularity.desc'
   
   useEffect(() => {
     if (!hasActiveFilters || searchQuery.trim()) return
@@ -92,6 +93,7 @@ export default function TV({ searchQuery }) {
     api.discoverTV({
       genre: filters.genre,
       sortBy: filters.sortBy,
+      country: filters.country,
       page: filterPage
     }).then(d => {
       setDiscoverResults(d.results || [])

@@ -37,18 +37,20 @@ export const api = {
   discoverGenreMovies: (genreId, page = 1) => tmdbFetch(`/discover/movie?with_genres=${genreId}&sort_by=popularity.desc&page=${page}`),
   searchMulti: (q, page = 1) => tmdbFetch(`/search/multi?query=${encodeURIComponent(q)}&page=${page}`),
   
-  discoverMovies: ({ genre, year, sortBy, page = 1 }) => {
+  discoverMovies: ({ genre, year, sortBy, country, page = 1 }) => {
     let path = `/discover/movie?page=${page}`
     if (genre) path += `&with_genres=${genre}`
     if (year) path += `&primary_release_year=${year}`
     if (sortBy) path += `&sort_by=${sortBy}`
+    if (country) path += `&with_origin_country=${country}`
     return tmdbFetch(path)
   },
-  discoverTV: ({ genre, year, sortBy, page = 1 }) => {
+  discoverTV: ({ genre, year, sortBy, country, page = 1 }) => {
     let path = `/discover/tv?page=${page}`
     if (genre) path += `&with_genres=${genre}`
     if (year) path += `&first_air_date_year=${year}`
     if (sortBy) path += `&sort_by=${sortBy}`
+    if (country) path += `&with_origin_country=${country}`
     return tmdbFetch(path)
   },
   discoverAnime: ({ genre, sortBy, page = 1 }) => {
