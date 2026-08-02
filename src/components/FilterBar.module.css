@@ -1,10 +1,8 @@
-.filterBar {
+.filterContainer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 2.5rem;
   padding: 0 clamp(1rem, 4vw, 3.5rem);
   animation: filterFadeIn 0.5s ease both;
 }
@@ -14,46 +12,68 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.filtersGroup {
+.filterRow {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
-  flex-wrap: wrap;
 }
 
-.selectWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.label {
-  font-size: 10px;
+.rowLabel {
+  min-width: 90px;
+  max-width: 90px;
+  font-size: 13px;
   font-weight: 800;
-  text-transform: uppercase;
   color: #888888;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
   font-family: var(--font-sans);
+  padding-top: 6px;
 }
 
-.select {
-  background: #141414;
-  border: 1px solid #333333;
-  color: #ffffff;
-  padding: 8px 14px;
-  border-radius: 4px;
+.optionsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  flex: 1;
+}
+
+.tag {
+  background: transparent;
+  border: none;
+  color: #a3a3a3;
+  padding: 4px 8px;
   font-size: 13px;
-  font-weight: 700;
-  outline: none;
+  font-weight: 600;
   cursor: pointer;
   font-family: var(--font-sans);
-  min-width: 140px;
+  border-radius: 16px;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.select:hover, .select:focus {
-  border-color: #ffffff;
-  background: #000000;
+.tag:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.activeTag {
+  background: #ffffff;
+  border: none;
+  color: #000000;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  border-radius: 16px;
+  white-space: nowrap;
+}
+
+.clearRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
 }
 
 .clearBtn {
@@ -67,8 +87,6 @@
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: var(--font-sans);
-  align-self: flex-end;
-  margin-top: auto;
 }
 
 .clearBtn:hover {
@@ -78,10 +96,159 @@
 }
 
 @media (max-width: 768px) {
-  .filterBar {
+  .filterRow {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .rowLabel {
+    padding-top: 0;
+  }
+  .optionsList {
+    gap: 6px 8px;
+  }
+  .tag, .activeTag {
+    padding: 3px 6px;
+    font-size: 12px;
+  }
+}
+
+.categoriesSection {
+  margin-bottom: 1.5rem;
+}
+
+.categoriesHeader {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  font-family: var(--font-sans);
+}
+
+.categoriesRow {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.categoryCard {
+  position: relative;
+  width: 250px;
+  height: 110px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  border: 2px solid transparent;
+}
+
+.categoryCard:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.activeCard {
+  border-color: #ffffff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+}
+
+.cardOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 100%);
+  z-index: 1;
+}
+
+.cardText {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding-left: 20px;
+  font-family: var(--font-sans);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.cardIcon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailedFilters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: detailedFiltersFadeIn 0.3s ease both;
+}
+
+@keyframes detailedFiltersFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .categoriesRow {
     gap: 12px;
   }
-  .select {
-    min-width: 120px;
+  .categoryCard {
+    width: 100%;
+    height: 90px;
   }
+}
+
+.categorySelectedHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  font-family: var(--font-sans);
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid #444444;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.backBtn:hover {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.activeCategoryLabel {
+  font-size: 14px;
+  color: #a3a3a3;
+}
+
+.activeCategoryLabel strong {
+  color: #ffffff;
+  font-weight: 800;
 }

@@ -35,8 +35,10 @@ export default function Home({ searchQuery }) {
     genre: '',
     year: '',
     country: '',
-    sortBy: 'popularity.desc',
-    contentType: 'all'
+    language: '',
+    sortBy: 'ForYou',
+    contentType: 'all',
+    activeCategory: ''
   })
   const [filterPage, setFilterPage] = useState(1)
   const [filterTotalPages, setFilterTotalPages] = useState(1)
@@ -110,7 +112,14 @@ export default function Home({ searchQuery }) {
   }, [searchQuery])
 
   // Fetch discover query based on filter selections
-  const hasActiveFilters = filters.genre || filters.year || filters.country || (filters.contentType && filters.contentType !== 'all') || filters.sortBy !== 'popularity.desc'
+  const hasActiveFilters =
+    filters.genre ||
+    filters.year ||
+    filters.country ||
+    filters.language ||
+    filters.activeCategory ||
+    (filters.contentType && filters.contentType !== 'all') ||
+    (filters.sortBy && filters.sortBy !== 'ForYou')
 
   useEffect(() => {
     if (!hasActiveFilters || searchQuery.trim()) return
@@ -118,18 +127,18 @@ export default function Home({ searchQuery }) {
     setDiscoverLoading(true)
     setDiscoverResults([])
 
-    const { genre, year, sortBy, country } = filters
+    const { genre, year, sortBy, country, language } = filters
     const type = filters.contentType || 'all'
 
     if (type === 'movie') {
-      api.discoverMovies({ genre, year, sortBy, country, page: filterPage })
+      api.discoverMovies({ genre, year, sortBy, country, language, page: filterPage })
         .then(d => {
           setDiscoverResults(d.results || [])
           setFilterTotalPages(d.total_pages || 1)
         })
         .finally(() => setDiscoverLoading(false))
     } else if (type === 'tv') {
-      api.discoverTV({ genre, year, sortBy, country, page: filterPage })
+      api.discoverTV({ genre, year, sortBy, country, language, page: filterPage })
         .then(d => {
           setDiscoverResults(d.results || [])
           setFilterTotalPages(d.total_pages || 1)
@@ -137,8 +146,8 @@ export default function Home({ searchQuery }) {
         .finally(() => setDiscoverLoading(false))
     } else {
       // Mixed type: fetch both in parallel and merge
-      const moviePromise = api.discoverMovies({ genre, year, sortBy, country, page: filterPage })
-      const tvPromise = api.discoverTV({ genre, year, sortBy, country, page: filterPage })
+      const moviePromise = api.discoverMovies({ genre, year, sortBy, country, language, page: filterPage })
+      const tvPromise = api.discoverTV({ genre, year, sortBy, country, language, page: filterPage })
 
       Promise.all([moviePromise, tvPromise])
         .then(([movies, tv]) => {
@@ -148,9 +157,9 @@ export default function Home({ searchQuery }) {
           ]
 
           // Sort mixed results
-          if (sortBy === 'vote_average.desc') {
+          if (sortBy === 'Rating') {
             mixed.sort((a, b) => b.vote_average - a.vote_average)
-          } else if (sortBy === 'release_date.desc') {
+          } else if (sortBy === 'Latest') {
             const getDate = item => item.release_date || item.first_air_date || ''
             mixed.sort((a, b) => getDate(b).localeCompare(getDate(a)))
           } else {
@@ -398,27 +407,7 @@ export default function Home({ searchQuery }) {
               }}
             />
 
-            {/* expad */}
-            <div className={styles.adContainer}>
-              <ins
-                className="adsbygoogle"
-                style={{ display: 'block' }}
-                data-ad-client="ca-pub-2988471757020856"
-                data-ad-slot="9353223324"
-                data-ad-format="auto"
-                data-full-width-responsive="true"
-                ref={(el) => {
-                  if (el && !el.dataset.adInitialized) {
-                    try {
-                      (window.adsbygoogle = window.adsbygoogle || []).push({});
-                      el.dataset.adInitialized = 'true';
-                    } catch (e) {
-                      console.error('Adsense error:', e);
-                    }
-                  }
-                }}
-              />
-            </div>
+
 
             <MediaRow
               title="Top Rated Movies"
@@ -476,7 +465,7 @@ export default function Home({ searchQuery }) {
               isTop10={true}
               onSelect={handleSelect}
             />
-            
+
             {/* Genre Sections */}
             <MediaRow
               title="Action & Adventure"

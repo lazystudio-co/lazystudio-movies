@@ -9,7 +9,7 @@ import FilterBar from '../components/FilterBar.jsx'
 import Pagination from '../components/Pagination.jsx'
 import styles from './TV.module.css' // Reuses TV page styles
 
-function persist(key, val) { try { sessionStorage.setItem(key, JSON.stringify(val)) } catch {} }
+function persist(key, val) { try { sessionStorage.setItem(key, JSON.stringify(val)) } catch { } }
 function hydrate(key) { try { const v = sessionStorage.getItem(key); return v ? JSON.parse(v) : null } catch { return null } }
 
 function shuffle(array) {
@@ -34,7 +34,8 @@ export default function Anime({ searchQuery }) {
   // Filter states
   const [filters, setFilters] = useState({
     genre: '',
-    sortBy: 'popularity.desc'
+    year: '',
+    sortBy: 'ForYou'
   })
   const [filterPage, setFilterPage] = useState(1)
   const [filterTotalPages, setFilterTotalPages] = useState(1)
@@ -65,14 +66,14 @@ export default function Anime({ searchQuery }) {
     ]).then(([trend, top, pop]) => {
       const trendingItems = trend.results || []
       setTrending(trendingItems)
-      
+
       if (trendingItems.length > 0) {
         setFeatured(trendingItems[0])
       }
-      
+
       setTopRated(top.results || [])
       setPopular(pop.results || [])
-      
+
       // Shuffle popular items to make a Scramble list
       if (pop.results && pop.results.length > 0) {
         setScramble(shuffle(pop.results))
@@ -81,8 +82,11 @@ export default function Anime({ searchQuery }) {
   }, [])
 
   // Execute discover filter queries
-  const hasActiveFilters = filters.genre || filters.sortBy !== 'popularity.desc'
-  
+  const hasActiveFilters =
+    filters.genre ||
+    filters.year ||
+    (filters.sortBy && filters.sortBy !== 'ForYou')
+
   useEffect(() => {
     if (!hasActiveFilters || searchQuery.trim()) return
 
@@ -91,6 +95,7 @@ export default function Anime({ searchQuery }) {
 
     api.discoverAnime({
       genre: filters.genre,
+      year: filters.year,
       sortBy: filters.sortBy,
       page: filterPage
     }).then(d => {
@@ -258,10 +263,10 @@ export default function Anime({ searchQuery }) {
   return (
     <div>
       {featured && !hasActiveFilters && (
-        <div 
-          className={styles.hero} 
-          style={{ 
-            backgroundImage: `url(${backdropUrl(featured.backdrop_path, 'original') || posterUrl(featured.poster_path, true)})` 
+        <div
+          className={styles.hero}
+          style={{
+            backgroundImage: `url(${backdropUrl(featured.backdrop_path, 'original') || posterUrl(featured.poster_path, true)})`
           }}
         >
           <div className={styles.heroOverlay} />
@@ -279,8 +284,8 @@ export default function Anime({ searchQuery }) {
             </div>
             <p className={styles.heroOverview}>{featured.overview}</p>
             <div className={styles.heroBtns}>
-              <button 
-                className={styles.heroPlayBtn} 
+              <button
+                className={styles.heroPlayBtn}
                 onClick={() => {
                   setSelected(featured)
                   persist('ani_selected', featured)
@@ -302,8 +307,8 @@ export default function Anime({ searchQuery }) {
               >
                 <Play size={14} fill="currentColor" /> Play
               </button>
-              <button 
-                className={styles.heroInfoBtn} 
+              <button
+                className={styles.heroInfoBtn}
                 onClick={() => {
                   setSelected(featured)
                   persist('ani_selected', featured)
@@ -319,10 +324,10 @@ export default function Anime({ searchQuery }) {
       )}
 
       {/* Minimal Filter Bar */}
-      <FilterBar 
-        pageType="anime" 
-        filters={filters} 
-        onChange={setFilters} 
+      <FilterBar
+        pageType="anime"
+        filters={filters}
+        onChange={setFilters}
       />
 
       {hasActiveFilters ? (
