@@ -4,6 +4,11 @@ import Home from './pages/Home.jsx'
 import Movies from './pages/Movies.jsx'
 import TV from './pages/TV.jsx'
 import Anime from './pages/Anime.jsx'
+import Blog from './pages/Blog.jsx'
+import About from './pages/About.jsx'
+import Contact from './pages/Contact.jsx'
+import Privacy from './pages/Privacy.jsx'
+import Terms from './pages/Terms.jsx'
 import styles from './App.module.css'
 
 function clearMovieSession() {
@@ -18,6 +23,7 @@ export default function App() {
   function goTab(t) {
     setTab(t)
     sessionStorage.setItem('cs_tab', t)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   function goHome() {
@@ -60,6 +66,12 @@ export default function App() {
             >
               Anime
             </button>
+            <button
+              className={`${styles.tab} ${tab === 'blog' ? styles.active : ''}`}
+              onClick={() => goTab('blog')}
+            >
+              Blog & Reviews
+            </button>
           </nav>
         </div>
 
@@ -91,9 +103,20 @@ export default function App() {
         {tab === 'movies' && <Movies searchQuery={searchQuery} />}
         {tab === 'tv' && <TV searchQuery={searchQuery} />}
         {tab === 'anime' && <Anime searchQuery={searchQuery} />}
+        {tab === 'blog' && <Blog />}
+        {tab === 'about' && <About />}
+        {tab === 'contact' && <Contact />}
+        {tab === 'privacy' && <Privacy />}
+        {tab === 'terms' && <Terms />}
       </main>
 
       <footer className={styles.footer}>
+        <div className={styles.footerLinks}>
+          <button onClick={() => goTab('about')} className={styles.footerMenuBtn}>About Us</button>
+          <button onClick={() => goTab('contact')} className={styles.footerMenuBtn}>Contact Us</button>
+          <button onClick={() => goTab('privacy')} className={styles.footerMenuBtn}>Privacy Policy</button>
+          <button onClick={() => goTab('terms')} className={styles.footerMenuBtn}>Terms of Service</button>
+        </div>
         <p className={styles.footerText}>
           &copy; {new Date().getFullYear()}{' '}
           <a

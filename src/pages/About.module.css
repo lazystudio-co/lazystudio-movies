@@ -1,0 +1,137 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.heroSection {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
+  font-weight: 800;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.card {
+  background: rgba(20, 20, 20, 0.6);
+  border: 1px solid var(--border);
+  padding: 30px;
+  border-radius: 8px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: #3f3f3f;
+}
+
+.cardIcon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.card h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.card p {
+  color: #d4d4d4;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.emailLink {
+  color: #ffffff;
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+
+.emailLink:hover {
+  opacity: 0.7;
+}
+
+.attributionSection, .legalSection {
+  margin-bottom: 50px;
+  border-top: 1px solid #222;
+  padding-top: 30px;
+}
+
+.attributionSection h2, .legalSection h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.attributionSection p, .legalSection p {
+  color: #d4d4d4;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.tmdbBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0d253f; /* TMDB Dark Blue */
+  padding: 20px;
+  border-radius: 6px;
+  border-left: 4px solid #01b4e4; /* TMDB Light Teal */
+}
+
+.tmdbText {
+  margin: 0 !important;
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+.tmdbLink {
+  background: #01b4e4;
+  color: #0d253f;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: opacity 0.2s ease;
+}
+
+.tmdbLink:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 600px) {
+  .tmdbBox {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+}
