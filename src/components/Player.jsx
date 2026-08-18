@@ -61,8 +61,8 @@ export default function Player({
   }
 
   return (
-    <div className={styles.overlay} onClick={handleOverlayClick}>
-      <div className={styles.modal}>
+    <div className={`${styles.overlay} google-auto-ads-no-ad`} onClick={handleOverlayClick}>
+      <div className={`${styles.modal} google-auto-ads-no-ad`}>
         <button className={styles.closeBtn} onClick={onClose} aria-label="Close Player">
           <X size={18} />
         </button>

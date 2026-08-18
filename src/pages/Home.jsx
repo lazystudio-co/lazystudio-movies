@@ -523,6 +523,69 @@ export default function Home({ searchQuery }) {
                 })
               }}
             />
+
+            {/* Rich Publisher Content Section for AdSense Value */}
+            <section className={styles.guideSection}>
+              <h2 className={styles.guideTitle}>LazyMovies — Free Streaming & Metadata Indexing Guide</h2>
+              <p className={styles.guideParagraph}>
+                LazyMovies is a comprehensive, open entertainment index designed to help film buffs, TV show binge-watchers, and anime enthusiasts discover, organize, and explore world cinema. Our database aggregates metadata, user ratings, cast profiles, and release schedules from verified public data endpoints including The Movie Database (TMDB).
+              </p>
+              <p className={styles.guideParagraph}>
+                Whether you are searching for award-winning Hollywood blockbusters, critically acclaimed independent films, trending Korean dramas, or classic 90s hand-drawn Japanese animation, LazyMovies offers fast multi-faceted search filters by genre, year of release, country of origin, and language.
+              </p>
+
+              <div className={styles.guideGrid}>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>🎬 Thousands of Titles Indexed</h3>
+                  <p className={styles.guideCardText}>
+                    Explore over 100,000+ indexed movies, television series, and animated features updated daily with real-time popularity rankings and ratings.
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>🔍 Advanced Dynamic Filtering</h3>
+                  <p className={styles.guideCardText}>
+                    Refine your search across 30+ film genres, release years ranging from classic cinema to 2026 releases, and 25+ international production origins.
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>📝 Original Editorial Reviews</h3>
+                  <p className={styles.guideCardText}>
+                    Visit our Blog & Reviews section for in-depth film breakdowns, streaming industry economic analysis, and cultural retrospectives written by our editorial team.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Frequently Asked Questions (FAQ) */}
+            <section className={styles.faqSection}>
+              <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
+              <div className={styles.faqList}>
+                <div className={styles.faqItem}>
+                  <h3 className={styles.faqQuestion}>What is LazyMovies?</h3>
+                  <p className={styles.faqAnswer}>
+                    LazyMovies is a free online catalog and search engine for movies, television series, and anime. We consolidate ratings, cast information, plot summaries, and streaming references into a unified, user-friendly interface.
+                  </p>
+                </div>
+                <div className={styles.faqItem}>
+                  <h3 className={styles.faqQuestion}>How does LazyMovies source its media content?</h3>
+                  <p className={styles.faqAnswer}>
+                    All movie and television metadata—including artwork, overviews, ratings, and release dates—is fetched programmatically via the TMDB API. Video streaming links rely on third-party public indexing widgets.
+                  </p>
+                </div>
+                <div className={styles.faqItem}>
+                  <h3 className={styles.faqQuestion}>Is LazyMovies free to use?</h3>
+                  <p className={styles.faqAnswer}>
+                    Yes, LazyMovies is 100% free to access without registration or subscription fees. Our site is supported by non-intrusive advertising on pages containing original publisher content.
+                  </p>
+                </div>
+                <div className={styles.faqItem}>
+                  <h3 className={styles.faqQuestion}>How can I submit feedback or report issues?</h3>
+                  <p className={styles.faqAnswer}>
+                    You can contact our support and editorial team at any time via the Contact Us page or by emailing support@lazymovies.app.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
         )
       )}

@@ -330,6 +330,38 @@ export default function Movies({ searchQuery }) {
               type="movie"
               onSelect={select}
             />
+
+            {/* Rich Editorial Publisher Content */}
+            <section className={styles.guideSection}>
+              <h2 className={styles.guideTitle}>Comprehensive Film Directory & Streaming Guide</h2>
+              <p className={styles.guideParagraph}>
+                Welcome to the LazyMovies Film Directory. Our platform brings together metadata for thousands of motion pictures across every major cinematic genre. From classic Golden Age Hollywood features to contemporary international festival award winners, LazyMovies organizes titles using accurate ratings, release details, and storyline overviews.
+              </p>
+              <p className={styles.guideParagraph}>
+                Utilize our comprehensive filters above to slice film catalogs by release year, primary genre (Action, Sci-Fi, Drama, Thriller, Comedy, Romance, and Horror), and country of production. Our goal is to provide film enthusiasts with an effortless metadata indexing platform to discover what to watch next.
+              </p>
+
+              <div className={styles.guideGrid}>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>🎥 Real-Time Ratings</h3>
+                  <p className={styles.guideCardText}>
+                    Track audience vote averages and popularity metrics dynamically updated via open TMDB metadata feeds.
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>🌍 Global Cinema Index</h3>
+                  <p className={styles.guideCardText}>
+                    Discover films from North America, Europe, East Asia, Latin America, and emerging international film markets.
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>⭐ Curated Top 10 Lists</h3>
+                  <p className={styles.guideCardText}>
+                    Explore daily trending top 10 movies categorized by current popularity and user engagement metrics.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
         )
       )}

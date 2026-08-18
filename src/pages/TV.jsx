@@ -429,6 +429,38 @@ export default function TV({ searchQuery }) {
                 persist('tv_player', null)
               }}
             />
+
+            {/* Rich Editorial Publisher Content */}
+            <section className={styles.guideSection}>
+              <h2 className={styles.guideTitle}>Television Series & Streaming Guide</h2>
+              <p className={styles.guideParagraph}>
+                The LazyMovies TV Shows directory provides viewers with season-by-season tracking, episode breakdowns, and metadata indexes for thousands of serial drama productions worldwide. Whether you follow network television broadcasts or modern streaming original series, LazyMovies helps you stay updated on current airings and top-rated television classics.
+              </p>
+              <p className={styles.guideParagraph}>
+                Filter television catalogs by primary genre, release decade, production country, or original language. Browse trending comedy sitcoms, high-stakes political thrillers, Sci-Fi epics, and crime procedural series with detailed episode selection overlays.
+              </p>
+
+              <div className={styles.guideGrid}>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>📺 Season & Episode Indexes</h3>
+                  <p className={styles.guideCardText}>
+                    Easily navigate multi-season TV shows with integrated season pickers and individual episode listings.
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>🔥 Trending Binge Watchlists</h3>
+                  <p className={styles.guideCardText}>
+                    Discover what viewers around the world are currently binge-watching with daily updated popularity metrics.
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>🌐 Global Television Coverage</h3>
+                  <p className={styles.guideCardText}>
+                    Access metadata for North American series, British dramas, Korean television hits, and European crime mystery shows.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
         )
       )}

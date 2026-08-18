@@ -421,6 +421,38 @@ export default function Anime({ searchQuery }) {
                 persist('ani_player', null)
               }}
             />
+
+            {/* Rich Editorial Publisher Content */}
+            <section className={styles.guideSection}>
+              <h2 className={styles.guideTitle}>Japanese Animation & Anime Culture Directory</h2>
+              <p className={styles.guideParagraph}>
+                Discover the vibrant world of Japanese animation on LazyMovies. Anime has grown from a regional artistic style into a globally celebrated medium renowned for visual creativity, complex narrative arcs, and iconic character design. Our anime directory indexes trending seasonal television series, feature-length anime movies, and legendary classics.
+              </p>
+              <p className={styles.guideParagraph}>
+                Filter anime titles by popular demographics and genres including Shonen action, Seinen drama, Shojo romance, Isekai fantasy, Cyberpunk sci-fi, and Slice-of-Life stories. Track ratings, episode counts, and release years to plan your anime watching queue.
+              </p>
+
+              <div className={styles.guideGrid}>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>🌸 Seasonal Release Tracking</h3>
+                  <p className={styles.guideCardText}>
+                    Keep up with Winter, Spring, Summer, and Fall anime broadcast seasons with real-time popularity indexing.
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>⚡ Genre Diversity</h3>
+                  <p className={styles.guideCardText}>
+                    Explore high-octane battle anime, cerebral psychological thrillers, futuristic mecha sagas, and heartwarming comedy series.
+                  </p>
+                </div>
+                <div className={styles.guideCard}>
+                  <h3 className={styles.guideCardTitle}>⛩️ Retrospectives & Analysis</h3>
+                  <p className={styles.guideCardText}>
+                    Read our Blog & Reviews articles for deep dives into retro 80s cel-animation aesthetics, city pop music influences, and industry insights.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
         )
       )}
